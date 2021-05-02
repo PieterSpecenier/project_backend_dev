@@ -14,8 +14,16 @@ using project_backend_dev.Configuration;
 
 namespace project_backend_dev.DataContext
 {
+    public interface IVolleybalContext
+    {
+        DbSet<Player> Player { get; set; }
+        DbSet<Match> Match { get; set; }
+        DbSet<Team> Team { get; set; }
+        DbSet<MatchTeams> MatchTeams { get; set; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    }
 
-    public class VolleybalContext : DbContext
+    public class VolleybalContext : DbContext, IVolleybalContext
     {
         public DbSet<Player> Player { get; set; }
         public DbSet<Match> Match { get; set; }
@@ -36,12 +44,12 @@ namespace project_backend_dev.DataContext
             options.UseSqlServer(_connectionStrings.SQL);
         }
 
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {                
-                modelBuilder.Entity<MatchTeams>()
-                   .HasKey(cs => new { cs.MatchId, cs.TeamId });
+        {
+            modelBuilder.Entity<MatchTeams>()
+               .HasKey(cs => new { cs.MatchId, cs.TeamId });
 
             modelBuilder.Entity<Team>().HasData(new Team()
             {

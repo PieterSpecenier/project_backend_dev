@@ -37,6 +37,8 @@ namespace project_backend_dev
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "project_backend_dev", Version = "v1" });
             });
+
+            services.AddTransient<IVolleybalContext,VolleybalContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
